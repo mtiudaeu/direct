@@ -1,4 +1,4 @@
-#include "Direct2DHelloWorld.h"
+#include "Main.h"
 
 //----------------------------------------------------------------------------------------------------
 int WINAPI WinMain(
@@ -32,8 +32,7 @@ DemoApp::DemoApp() :
     m_pD2DFactory(NULL),
     m_pDWriteFactory(NULL),
     m_pRenderTarget(NULL),
-    m_pTextFormat(NULL),
-    m_pBlackBrush(NULL)
+    m_pTextFormat(NULL)
 {
 }
 
@@ -44,7 +43,6 @@ DemoApp::~DemoApp()
     SafeRelease(&m_pDWriteFactory);
     SafeRelease(&m_pRenderTarget);
     SafeRelease(&m_pTextFormat);
-    SafeRelease(&m_pBlackBrush);
 
 }
 
@@ -152,18 +150,17 @@ HRESULT DemoApp::CreateDeviceResources()
         );
     if (FAILED(hr)) return hr;
 
-    hr = m_pRenderTarget->CreateSolidColorBrush(
-        D2D1::ColorF(D2D1::ColorF::Black),
-        &m_pBlackBrush
-        );
+    m_menu.createResources(m_pRenderTarget);
+
     return hr;
 }
 
 //----------------------------------------------------------------------------------------------------
 void DemoApp::DiscardDeviceResources()
 {
+    m_menu.discardResources();
+
     SafeRelease(&m_pRenderTarget);
-    SafeRelease(&m_pBlackBrush);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -188,24 +185,14 @@ HRESULT DemoApp::OnRender()
     
     if (m_pRenderTarget->CheckWindowState() & D2D1_WINDOW_STATE_OCCLUDED) return hr;
 
-    static const WCHAR sc_helloWorld[] = L"Hello, World!";
-
-    // Retrieve the size of the render target.
-    D2D1_SIZE_F renderTargetSize = m_pRenderTarget->GetSize();
-
     m_pRenderTarget->BeginDraw();
 
     m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
     m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
-    m_pRenderTarget->DrawText(
-        sc_helloWorld,
-        ARRAYSIZE(sc_helloWorld) - 1,
-        m_pTextFormat,
-        D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
-        m_pBlackBrush
-        );
+    m_menu.onRender(m_pRenderTarget, m_pTextFormat);
+    m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
     hr = m_pRenderTarget->EndDraw();
 

@@ -38,6 +38,8 @@
 #include <dwrite.h>
 #include <wincodec.h>
 
+#include "Menu.h"
+
 /******************************************************************
 *                                                                 *
 *  Macros                                                         *
@@ -114,7 +116,7 @@ private:
     IDWriteFactory *m_pDWriteFactory;
     ID2D1HwndRenderTarget *m_pRenderTarget;
     IDWriteTextFormat *m_pTextFormat;
-    ID2D1SolidColorBrush *m_pBlackBrush;
+    Menu m_menu;
 };
 
 
