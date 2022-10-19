@@ -32,13 +32,13 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
     D2D1::Matrix3x2F transform;
     
     //--------------------
-    transform = D2D1::Matrix3x2F::Translation(0, -(renderTargetSize.height / 10));
+    transform = D2D1::Matrix3x2F::Translation(0, -(renderTargetSize.height / 4));
     pRenderTarget->SetTransform(transform);
     pRenderTarget->DrawText(
         sc_welcome,
         ARRAYSIZE(sc_welcome) - 1,
         pTextFormat,
-        D2D1::RectF(0, 0, renderTargetSize.width/2, renderTargetSize.height/2),
+        D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
         m_pBlackBrush
     );
     
@@ -67,6 +67,18 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
         m_pBlackBrush
     );
+
+    //--------------------
+    transform = D2D1::Matrix3x2F::Scale(0.5f, 0.5f)
+        * D2D1::Matrix3x2F::Translation((renderTargetSize.width / 4), (renderTargetSize.height / 4))
+        * D2D1::Matrix3x2F::Translation(0, (2 * renderTargetSize.height / 8));
+    pRenderTarget->SetTransform(transform);
+    pRenderTarget->DrawRectangle(
+        D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
+        m_pBlackBrush,
+        4.0f // stroke width
+    );
+       
 
     return hr;
 }
