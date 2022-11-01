@@ -28,6 +28,8 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
     static const WCHAR sc_tetris[] = L"Tetris";
     static const WCHAR sc_snake[] = L"Snake";
 
+    static const WCHAR sc_example[] = L"Example Middle";
+
     D2D1_SIZE_F renderTargetSize = pRenderTarget->GetSize();
     D2D1::Matrix3x2F transform;
     
@@ -42,6 +44,19 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         m_pBlackBrush
     );
     
+    //--------------------  After a scale of .5, we need to offset by .25 of window size to come back to middle. (x/2)
+    transform = D2D1::Matrix3x2F::Scale(0.5f, 0.5f)
+    * D2D1::Matrix3x2F::Translation((renderTargetSize.width / 4), (renderTargetSize.height / 4));
+    
+    pRenderTarget->SetTransform(transform);
+    pRenderTarget->DrawText(
+        sc_example,
+        ARRAYSIZE(sc_example) - 1,
+        pTextFormat,
+        D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
+        m_pBlackBrush
+    );
+
     //--------------------
     transform = D2D1::Matrix3x2F::Scale(0.5f, 0.5f) 
         * D2D1::Matrix3x2F::Translation((renderTargetSize.width / 4), (renderTargetSize.height / 4))
