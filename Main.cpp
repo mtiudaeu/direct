@@ -275,6 +275,14 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
             result = 0;
             break;
 
+        case WM_KEYDOWN:
+            {
+                pDemoApp->OnKeyDown(static_cast<SHORT>(wParam));
+            }
+            result = 0;
+            wasHandled = true;
+            break;
+
         case WM_DESTROY:
             {
                 PostQuitMessage(0);
@@ -292,4 +300,9 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
     
 
     return result;
+}
+
+//----------------------------------------------------------------------------------------------------
+void DemoApp::OnKeyDown(SHORT vkey) {
+    m_menu.onKeyDown(vkey);
 }

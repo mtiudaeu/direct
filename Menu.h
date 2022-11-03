@@ -10,6 +10,8 @@ public:
 
 	HRESULT onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat);
 
+	void onKeyDown(SHORT vkey);
+
 private:
 	ID2D1SolidColorBrush* m_pBlackBrush = nullptr;
 	int m_menu_position = 0;

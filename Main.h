@@ -109,6 +109,8 @@ private:
         LPARAM lParam
         );
 
+    void OnKeyDown(SHORT vkey);
+
 private:
     HWND m_hwnd;
     ID2D1Factory *m_pD2DFactory;
