@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+#include "ui.h"
+
 
 //----------------------------------------------------------------------------------------------------
 HRESULT Menu::createResources(ID2D1HwndRenderTarget* pRenderTarget) {
@@ -44,18 +46,7 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         m_pBlackBrush
     );
     
-    //--------------------  After a scale of .5, we need to offset by .25 of window size to come back to middle. (x/2)
-    transform = D2D1::Matrix3x2F::Scale(0.5f, 0.5f)
-    * D2D1::Matrix3x2F::Translation((renderTargetSize.width / 4), (renderTargetSize.height / 4));
-    
-    pRenderTarget->SetTransform(transform);
-    pRenderTarget->DrawText(
-        sc_example,
-        ARRAYSIZE(sc_example) - 1,
-        pTextFormat,
-        D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
-        m_pBlackBrush
-    );
+
 
     //--------------------
     transform = D2D1::Matrix3x2F::Scale(0.5f, 0.5f) 
@@ -93,6 +84,16 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         m_pBlackBrush,
         4.0f // stroke width
     );
+
+    //-------------------
+    ui::draw_text_s example{
+        .pRenderTarget = pRenderTarget,
+        .pTextFormat = pTextFormat,
+        .pBrush = m_pBlackBrush,
+        .text = sc_example,
+        .text_size = ARRAYSIZE(sc_example)
+    };
+    ui::draw_text(example);
        
 
     return hr;
