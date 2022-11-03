@@ -53,7 +53,7 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         draw_text_args.text_size = ARRAYSIZE(sc_text);
         draw_text_args.scale = .5f;
         draw_text_args.x = 0.0f;
-        draw_text_args.y = -0.1f;
+        draw_text_args.y = -0.0f;
 
         ui::draw_text(draw_text_args);
     }
@@ -66,7 +66,7 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         draw_text_args.text_size = ARRAYSIZE(sc_text);
         draw_text_args.scale = .5f;
         draw_text_args.x = 0.0f;
-        draw_text_args.y = -0.2f;
+        draw_text_args.y = -0.1f;
 
         ui::draw_text(draw_text_args);
     }
@@ -80,7 +80,7 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
             .width = .15f,
             .height = .05f,
             .x = 0.f,
-            .y = -0.2f
+            .y = (float)m_menu_position * -0.1f
         };
         ui::draw_rectangle(draw_rectangle_arg);
     }

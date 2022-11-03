@@ -192,6 +192,7 @@ HRESULT DemoApp::OnRender()
     m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
     m_menu.onRender(m_pRenderTarget, m_pTextFormat);
+
     m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
     hr = m_pRenderTarget->EndDraw();
@@ -249,7 +250,7 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
     if (pDemoApp)
     {
-        switch (message)
+        switch (message)//TODO mdtmp Grab Hotkeys
         {
         case WM_SIZE:
             {

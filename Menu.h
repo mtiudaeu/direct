@@ -12,5 +12,6 @@ public:
 
 private:
 	ID2D1SolidColorBrush* m_pBlackBrush = nullptr;
+	int m_menu_position = 0;
 };
 
