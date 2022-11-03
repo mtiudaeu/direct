@@ -12,7 +12,7 @@ void draw_text(const draw_text_s& arg) {
 
     transform = D2D1::Matrix3x2F::Scale(arg.scale, arg.scale)
         * D2D1::Matrix3x2F::Translation((renderTargetSize.width/2.0f) * (1.0f - arg.scale), (renderTargetSize.height / 2.0f) * (1.0f - arg.scale))
-        * D2D1::Matrix3x2F::Translation((renderTargetSize.width * arg.x), (-renderTargetSize.height * arg.y));
+        * D2D1::Matrix3x2F::Translation((renderTargetSize.width * arg.x), (renderTargetSize.height * -arg.y));
 
     arg.pRenderTarget->SetTransform(transform);
     arg.pRenderTarget->DrawText(
@@ -26,19 +26,35 @@ void draw_text(const draw_text_s& arg) {
 
 //---------------------------------------------------------------------------------
 void draw_rectangle(const draw_rectangle_s& arg) {
+    D2D1_SIZE_F renderTargetSize = arg.pRenderTarget->GetSize();
+    D2D1::Matrix3x2F transform = D2D1::Matrix3x2F::Identity();
+
+    arg.pRenderTarget->SetTransform(transform);
+    arg.pRenderTarget->DrawRectangle(
+        D2D1::RectF(
+            (renderTargetSize.width / 2.f)  + (renderTargetSize.width * arg.x) - (arg.width * renderTargetSize.width),
+            (renderTargetSize.height / 2.f) + (renderTargetSize.height * -arg.y) - (arg.height * renderTargetSize.height),
+            (renderTargetSize.width / 2.f) + (renderTargetSize.width * arg.x) + (arg.width * renderTargetSize.width),
+            (renderTargetSize.height / 2.f) + (renderTargetSize.height * -arg.y) + (arg.height * renderTargetSize.height)),
+        arg.pBrush,
+        4.0f // stroke width
+    );
+    /*
     //TODO mdtmp Add scale + position
     D2D1_SIZE_F renderTargetSize = arg.pRenderTarget->GetSize();
     D2D1::Matrix3x2F transform;
 
-    transform = D2D1::Matrix3x2F::Scale(0.5f, 0.5f)
-        * D2D1::Matrix3x2F::Translation((renderTargetSize.width / 4), (renderTargetSize.height / 4))
-        * D2D1::Matrix3x2F::Translation(0, (2 * renderTargetSize.height / 8));
+    transform = D2D1::Matrix3x2F::Scale(arg.scale_x, arg.scale_y)
+        * D2D1::Matrix3x2F::Translation((renderTargetSize.width / 2.0f) * (1.0f - arg.scale_x), (renderTargetSize.height / 2.0f) * (1.0f - arg.scale_y))
+        * D2D1::Matrix3x2F::Translation((renderTargetSize.width * arg.x), (-renderTargetSize.height * arg.y));
+
     arg.pRenderTarget->SetTransform(transform);
     arg.pRenderTarget->DrawRectangle(
-        D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
+        D2D1::RectF(0, renderTargetSize.height/2, renderTargetSize.width, renderTargetSize.height),
         arg.pBrush,
         4.0f // stroke width
     );
+    */
 }
 
 }

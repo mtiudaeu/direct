@@ -76,7 +76,11 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         ui::draw_rectangle_s draw_rectangle_arg{
             .pRenderTarget = pRenderTarget,
             .pTextFormat = pTextFormat,
-            .pBrush = m_pBlackBrush
+            .pBrush = m_pBlackBrush,
+            .width = .15f,
+            .height = .05f,
+            .x = 0.f,
+            .y = -0.2f
         };
         ui::draw_rectangle(draw_rectangle_arg);
     }

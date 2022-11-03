@@ -22,8 +22,8 @@ namespace ui {
 		ID2D1HwndRenderTarget* pRenderTarget;
 		IDWriteTextFormat* pTextFormat;
 		ID2D1SolidColorBrush* pBrush;
-		float scale_x;
-		float scale_y;
+		float width;
+		float height;
 		float x;
 		float y;
 	};
