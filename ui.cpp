@@ -14,7 +14,7 @@ void draw_text(const draw_text_s& arg) {
     //--------------------  Example : After a scale of .5, we need to offset by .25 of window size to come back to middle. (x/2)
     transform = D2D1::Matrix3x2F::Scale(arg.scale, arg.scale)
         * D2D1::Matrix3x2F::Translation((renderTargetSize.width * arg.scale / 2), (renderTargetSize.height * arg.scale / 2))
-        * D2D1::Matrix3x2F::Translation((renderTargetSize.width * arg.x), (renderTargetSize.height * arg.y));
+        * D2D1::Matrix3x2F::Translation((renderTargetSize.width * arg.x), (-renderTargetSize.height * arg.y));
 
     arg.pRenderTarget->SetTransform(transform);
     arg.pRenderTarget->DrawText(
