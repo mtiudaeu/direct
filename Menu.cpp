@@ -91,7 +91,10 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         .pTextFormat = pTextFormat,
         .pBrush = m_pBlackBrush,
         .text = sc_example,
-        .text_size = ARRAYSIZE(sc_example)
+        .text_size = ARRAYSIZE(sc_example),
+        .scale = .5f,
+        .x = 0.25f,
+        .y = 0.25f
     };
     ui::draw_text(example);
        

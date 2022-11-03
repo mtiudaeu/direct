@@ -9,6 +9,9 @@ namespace ui {
 		ID2D1SolidColorBrush* pBrush;
 		const WCHAR* text;
 		UINT32 text_size;
+		float scale;
+		float x;
+		float y;
 	};
 
 	void draw_text(const draw_text_s& arg);
