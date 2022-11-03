@@ -279,6 +279,9 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
             {
                 pDemoApp->OnKeyDown(static_cast<SHORT>(wParam));
             }
+
+            PostMessage(hwnd, WM_PAINT, 0, 0);
+
             result = 0;
             wasHandled = true;
             break;
