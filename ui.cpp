@@ -5,15 +5,13 @@
 
 namespace ui {
 
+//---------------------------------------------------------------------------------
 void draw_text(const draw_text_s& arg) {
-    assert(arg.scale < 1.f);
-
     D2D1_SIZE_F renderTargetSize = arg.pRenderTarget->GetSize();
     D2D1::Matrix3x2F transform;
 
-    //--------------------  Example : After a scale of .5, we need to offset by .25 of window size to come back to middle. (x/2)
     transform = D2D1::Matrix3x2F::Scale(arg.scale, arg.scale)
-        * D2D1::Matrix3x2F::Translation((renderTargetSize.width * arg.scale / 2), (renderTargetSize.height * arg.scale / 2))
+        * D2D1::Matrix3x2F::Translation((renderTargetSize.width/2.0f) * (1.0f - arg.scale), (renderTargetSize.height / 2.0f) * (1.0f - arg.scale))
         * D2D1::Matrix3x2F::Translation((renderTargetSize.width * arg.x), (-renderTargetSize.height * arg.y));
 
     arg.pRenderTarget->SetTransform(transform);
@@ -23,6 +21,23 @@ void draw_text(const draw_text_s& arg) {
         arg.pTextFormat,
         D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
         arg.pBrush
+    );
+}
+
+//---------------------------------------------------------------------------------
+void draw_rectangle(const draw_rectangle_s& arg) {
+    //TODO mdtmp Add scale + position
+    D2D1_SIZE_F renderTargetSize = arg.pRenderTarget->GetSize();
+    D2D1::Matrix3x2F transform;
+
+    transform = D2D1::Matrix3x2F::Scale(0.5f, 0.5f)
+        * D2D1::Matrix3x2F::Translation((renderTargetSize.width / 4), (renderTargetSize.height / 4))
+        * D2D1::Matrix3x2F::Translation(0, (2 * renderTargetSize.height / 8));
+    arg.pRenderTarget->SetTransform(transform);
+    arg.pRenderTarget->DrawRectangle(
+        D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
+        arg.pBrush,
+        4.0f // stroke width
     );
 }
 

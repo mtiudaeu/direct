@@ -38,7 +38,7 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
 
         draw_text_args.text = sc_text;
         draw_text_args.text_size = ARRAYSIZE(sc_text);
-        draw_text_args.scale = .5f;
+        draw_text_args.scale = 1.2f;
         draw_text_args.x = 0.0f;
         draw_text_args.y = 0.25f;
 
@@ -53,7 +53,7 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         draw_text_args.text_size = ARRAYSIZE(sc_text);
         draw_text_args.scale = .5f;
         draw_text_args.x = 0.0f;
-        draw_text_args.y = -0.2f;
+        draw_text_args.y = -0.1f;
 
         ui::draw_text(draw_text_args);
     }
@@ -66,25 +66,20 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         draw_text_args.text_size = ARRAYSIZE(sc_text);
         draw_text_args.scale = .5f;
         draw_text_args.x = 0.0f;
-        draw_text_args.y = -0.3f;
+        draw_text_args.y = -0.2f;
 
         ui::draw_text(draw_text_args);
     }
 
-    D2D1_SIZE_F renderTargetSize = pRenderTarget->GetSize();
-    D2D1::Matrix3x2F transform;
-    
-
-    //--------------------
-    transform = D2D1::Matrix3x2F::Scale(0.5f, 0.5f)
-        * D2D1::Matrix3x2F::Translation((renderTargetSize.width / 4), (renderTargetSize.height / 4))
-        * D2D1::Matrix3x2F::Translation(0, (2 * renderTargetSize.height / 8));
-    pRenderTarget->SetTransform(transform);
-    pRenderTarget->DrawRectangle(
-        D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
-        m_pBlackBrush,
-        4.0f // stroke width
-    );
+    //---------------------------------------------------------------------------------
+    {
+        ui::draw_rectangle_s draw_rectangle_arg{
+            .pRenderTarget = pRenderTarget,
+            .pTextFormat = pTextFormat,
+            .pBrush = m_pBlackBrush
+        };
+        ui::draw_rectangle(draw_rectangle_arg);
+    }
 
     return hr;
 }
