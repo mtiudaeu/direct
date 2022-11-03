@@ -26,6 +26,7 @@ namespace ui {
 		float height;
 		float x;
 		float y;
+		float stroke_width = 2.0f;
 	};
 	void draw_rectangle(const draw_rectangle_s& arg);
 
