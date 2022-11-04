@@ -1,7 +1,16 @@
 #include "Menu.h"
 
 #include "ui.h"
+#include "game_tetris.h"
+#include "game_snake.h"
 
+#include <assert.h>
+
+enum E_GAME {
+    TETRIS = 0,
+    SNAKE,
+    END
+};
 
 //----------------------------------------------------------------------------------------------------
 HRESULT Menu::createResources(ID2D1HwndRenderTarget* pRenderTarget) {
@@ -25,6 +34,27 @@ void Menu::discardResources() {
 //----------------------------------------------------------------------------------------------------
 HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat) {
     HRESULT hr = S_OK;
+
+    if (m_current_game) {
+
+        switch (m_menu_position) {
+        case TETRIS:
+        {
+            game_tetris* game = static_cast<game_tetris*>(m_current_game);
+            game->onRender(pRenderTarget, pTextFormat, m_pBlackBrush);
+        }
+        break;
+
+        case SNAKE:
+        {
+            game_snake* game = static_cast<game_snake*>(m_current_game);
+            game->onRender(pRenderTarget, pTextFormat, m_pBlackBrush);
+        }
+        break;
+        }
+
+        return hr;
+    }
 
     ui::draw_text_s draw_text_args{
         .pRenderTarget = pRenderTarget,
@@ -90,24 +120,51 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
 
 //----------------------------------------------------------------------------------------------------
 void Menu::onKeyDown(SHORT vkey) {
+    if (vkey == VK_ESCAPE) {
+       switch (m_menu_position) {
+       case TETRIS:
+       {
+           game_tetris* game = static_cast<game_tetris*>(m_current_game);
+           delete game;
+           m_current_game = nullptr;
+       }
+       break;
+
+       case SNAKE:
+       {
+           game_snake* game = static_cast<game_snake*>(m_current_game);
+           delete game;
+           m_current_game = nullptr;
+       }
+       break;
+       }
+       return;
+    }
+
+    if (m_current_game) {
+
+        switch (m_menu_position) {
+             case TETRIS:
+                {
+                    game_tetris* game = static_cast<game_tetris*>(m_current_game);
+                    game->onKeyDown(vkey);
+                }
+                break;
+
+            case SNAKE:
+                {
+                    game_snake* game = static_cast<game_snake*>(m_current_game);
+                    game->onKeyDown(vkey);
+                }
+                break;
+        }
+
+        return;
+    }
+
     switch (vkey)
     {
         /*
-    case 'A':
-        m_antialiasMode =
-            (m_antialiasMode == D2D1_ANTIALIAS_MODE_ALIASED) ?
-            D2D1_ANTIALIAS_MODE_PER_PRIMITIVE :
-            D2D1_ANTIALIAS_MODE_ALIASED;
-        break;
-
-    case 'R':
-        m_useRealizations = !m_useRealizations;
-        break;
-
-    case 'G':
-        m_autoGeometryRegen = !m_autoGeometryRegen;
-        break;
-
     case 'S':
         m_drawStroke = !m_drawStroke;
         break;
@@ -126,6 +183,22 @@ void Menu::onKeyDown(SHORT vkey) {
 
         break;
 
+    case VK_RETURN:
+        switch (m_menu_position) {
+            case TETRIS:
+            {
+                m_current_game = new game_tetris();
+            }
+            break;
+
+            case SNAKE:
+            {
+                m_current_game = new game_snake();
+            }
+            break;
+        }
+        break;
+        
     default:
         break;
     }
