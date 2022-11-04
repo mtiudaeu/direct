@@ -166,12 +166,22 @@ void DemoApp::DiscardDeviceResources()
 //----------------------------------------------------------------------------------------------------
 void DemoApp::RunMessageLoop()
 {
-    MSG msg;
-
-    while (GetMessage(&msg, NULL, 0, 0))
+    MSG msg = {};
+    while (WM_QUIT != msg.message)
     {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+        else
+        {
+            PAINTSTRUCT ps;
+            BeginPaint(m_hwnd, &ps);
+
+            OnRender();
+            EndPaint(m_hwnd, &ps);
+        }
     }
 }
 
@@ -261,20 +271,6 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
             wasHandled = true;
             result = 0;
             break;
-
-        case WM_PAINT:
-        case WM_DISPLAYCHANGE:
-            {
-                PAINTSTRUCT ps;
-                BeginPaint(hwnd, &ps);
-
-                pDemoApp->OnRender();
-                EndPaint(hwnd, &ps);
-            }
-            wasHandled = true;
-            result = 0;
-            break;
-
         case WM_KEYDOWN:
             {
                 pDemoApp->OnKeyDown(static_cast<SHORT>(wParam));
