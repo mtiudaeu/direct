@@ -80,45 +80,31 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 *                                                                 *
 ******************************************************************/
 
-class DemoApp
-{
-public:
-    DemoApp();
-    ~DemoApp();
 
-    HRESULT Initialize();
+HRESULT Initialize();
 
-    void RunMessageLoop();
+void RunMessageLoop();
 
-private:
-    HRESULT CreateDeviceIndependentResources();
-    HRESULT CreateDeviceResources();
-    void DiscardDeviceResources();
 
-    HRESULT OnRender();
+HRESULT CreateDeviceIndependentResources();
+HRESULT CreateDeviceResources();
+void DiscardDeviceResources();
 
-    void OnResize(
-        UINT width,
-        UINT height
-        );
+HRESULT OnRender();
 
-    static LRESULT CALLBACK WndProc(
-        HWND hWnd,
-        UINT message,
-        WPARAM wParam,
-        LPARAM lParam
-        );
+void OnResize(
+    UINT width,
+    UINT height
+    );
 
-    void OnKeyDown(SHORT vkey);
+static LRESULT CALLBACK WndProc(
+    HWND hWnd,
+    UINT message,
+    WPARAM wParam,
+    LPARAM lParam
+    );
 
-private:
-    HWND m_hwnd;
-    ID2D1Factory *m_pD2DFactory;
-    IWICImagingFactory *m_pWICFactory;
-    IDWriteFactory *m_pDWriteFactory;
-    ID2D1HwndRenderTarget *m_pRenderTarget;
-    IDWriteTextFormat *m_pTextFormat;
-    Menu m_menu;
-};
+void OnKeyDown(SHORT vkey);
+
 
 

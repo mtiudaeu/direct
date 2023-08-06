@@ -1,5 +1,13 @@
 #include "Main.h"
 
+HWND m_hwnd = NULL;
+ID2D1Factory* m_pD2DFactory = NULL;
+IWICImagingFactory* m_pWICFactory = NULL;
+IDWriteFactory* m_pDWriteFactory = NULL;
+ID2D1HwndRenderTarget* m_pRenderTarget = NULL;
+IDWriteTextFormat* m_pTextFormat = NULL;
+Menu m_menu;
+
 //----------------------------------------------------------------------------------------------------
 int WINAPI WinMain(
     HINSTANCE /*hInstance*/,
@@ -13,41 +21,27 @@ int WINAPI WinMain(
     if (SUCCEEDED(CoInitialize(NULL)))
     {
         {
-            DemoApp app;
-
-            if (SUCCEEDED(app.Initialize()))
+            if (SUCCEEDED(Initialize()))
             {
-                app.RunMessageLoop();
+                RunMessageLoop();
             }
+
+            // UnInitialize
+            SafeRelease(&m_pD2DFactory);
+            SafeRelease(&m_pDWriteFactory);
+            SafeRelease(&m_pRenderTarget);
+            SafeRelease(&m_pTextFormat);
         }
         CoUninitialize();
     }
 
+
     return 0;
 }
 
-//----------------------------------------------------------------------------------------------------
-DemoApp::DemoApp() :
-    m_hwnd(NULL),
-    m_pD2DFactory(NULL),
-    m_pDWriteFactory(NULL),
-    m_pRenderTarget(NULL),
-    m_pTextFormat(NULL)
-{
-}
 
 //----------------------------------------------------------------------------------------------------
-DemoApp::~DemoApp()
-{
-    SafeRelease(&m_pD2DFactory);
-    SafeRelease(&m_pDWriteFactory);
-    SafeRelease(&m_pRenderTarget);
-    SafeRelease(&m_pTextFormat);
-
-}
-
-//----------------------------------------------------------------------------------------------------
-HRESULT DemoApp::Initialize()
+HRESULT Initialize()
 {
     HRESULT hr;
     hr = CreateDeviceIndependentResources();
@@ -55,7 +49,7 @@ HRESULT DemoApp::Initialize()
     
     WNDCLASSEX wcex = { sizeof(WNDCLASSEX) };
     wcex.style         = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc   = DemoApp::WndProc;
+    wcex.lpfnWndProc   = WndProc;
     wcex.cbClsExtra    = 0;
     wcex.cbWndExtra    = sizeof(LONG_PTR);
     wcex.hInstance     = HINST_THISCOMPONENT;
@@ -81,7 +75,7 @@ HRESULT DemoApp::Initialize()
         NULL,
         NULL,
         HINST_THISCOMPONENT,
-        this
+        NULL
         );
     hr = m_hwnd ? S_OK : E_FAIL;
     if (FAILED(hr)) return hr;
@@ -94,7 +88,7 @@ HRESULT DemoApp::Initialize()
 }
 
 //----------------------------------------------------------------------------------------------------
-HRESULT DemoApp::CreateDeviceIndependentResources()
+HRESULT CreateDeviceIndependentResources()
 {
     static const WCHAR msc_fontName[] = L"Verdana";
     static const FLOAT msc_fontSize = 50;
@@ -129,7 +123,7 @@ HRESULT DemoApp::CreateDeviceIndependentResources()
 }
 
 //----------------------------------------------------------------------------------------------------
-HRESULT DemoApp::CreateDeviceResources()
+HRESULT CreateDeviceResources()
 {
     HRESULT hr = S_OK;
 
@@ -156,7 +150,7 @@ HRESULT DemoApp::CreateDeviceResources()
 }
 
 //----------------------------------------------------------------------------------------------------
-void DemoApp::DiscardDeviceResources()
+void DiscardDeviceResources()
 {
     m_menu.discardResources();
 
@@ -164,7 +158,7 @@ void DemoApp::DiscardDeviceResources()
 }
 
 //----------------------------------------------------------------------------------------------------
-void DemoApp::RunMessageLoop()
+void RunMessageLoop()
 {
     MSG msg = {};
     while (WM_QUIT != msg.message)
@@ -186,7 +180,7 @@ void DemoApp::RunMessageLoop()
 }
 
 //----------------------------------------------------------------------------------------------------
-HRESULT DemoApp::OnRender()
+HRESULT OnRender()
 {
     HRESULT hr;
 
@@ -217,7 +211,7 @@ HRESULT DemoApp::OnRender()
 }
 
 //----------------------------------------------------------------------------------------------------
-void DemoApp::OnResize(UINT width, UINT height)
+void OnResize(UINT width, UINT height)
 {
     if (!m_pRenderTarget) return;
 
@@ -233,32 +227,34 @@ void DemoApp::OnResize(UINT width, UINT height)
 
 
 //----------------------------------------------------------------------------------------------------
-LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     if (message == WM_CREATE)
     {
-        LPCREATESTRUCT pcs = (LPCREATESTRUCT)lParam;
-        DemoApp *pDemoApp = (DemoApp *)pcs->lpCreateParams;
+        //mdtmp LPCREATESTRUCT pcs = (LPCREATESTRUCT)lParam;
+        //mdtmp DemoApp *pDemoApp = (DemoApp *)pcs->lpCreateParams;
 
         ::SetWindowLongPtrW(
             hwnd,
             GWLP_USERDATA,
-            reinterpret_cast<LONG_PTR>(pDemoApp)
+            //mdtmp reinterpret_cast<LONG_PTR>(pDemoApp)
+            NULL
             );
 
         return 1;
     }
     
     LRESULT result = 0;
-    DemoApp *pDemoApp = reinterpret_cast<DemoApp *>(
-        ::GetWindowLongPtrW(
-            hwnd,
-            GWLP_USERDATA
-            ));
+    //mdtmp DemoApp *pDemoApp = reinterpret_cast<DemoApp *>(
+    ::GetWindowLongPtrW(
+        hwnd,
+        GWLP_USERDATA
+    );
+            //mdtmp);
 
     bool wasHandled = false;
 
-    if (pDemoApp)
+    //mdtmp if (pDemoApp)
     {
         switch (message)//TODO mdtmp Grab Hotkeys
         {
@@ -266,14 +262,14 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
             {
                 UINT width = LOWORD(lParam);
                 UINT height = HIWORD(lParam);
-                pDemoApp->OnResize(width, height);
+                OnResize(width, height);
             }
             wasHandled = true;
             result = 0;
             break;
         case WM_KEYDOWN:
             {
-                pDemoApp->OnKeyDown(static_cast<SHORT>(wParam));
+                OnKeyDown(static_cast<SHORT>(wParam));
             }
 
             PostMessage(hwnd, WM_PAINT, 0, 0);
@@ -302,6 +298,6 @@ LRESULT CALLBACK DemoApp::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 }
 
 //----------------------------------------------------------------------------------------------------
-void DemoApp::OnKeyDown(SHORT vkey) {
+void OnKeyDown(SHORT vkey) {
     m_menu.onKeyDown(vkey);
 }
