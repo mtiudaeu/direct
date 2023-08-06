@@ -56,7 +56,7 @@ HRESULT MenuOnRender(Menu* menu, ID2D1HwndRenderTarget* pRenderTarget, IDWriteTe
         return hr;
     }
 
-    ui::draw_text_s draw_text_args{
+    ui_draw_text_s draw_text_args{
         .pRenderTarget = pRenderTarget,
         .pTextFormat = pTextFormat,
         .pBrush = menu->m_pBlackBrush
@@ -72,7 +72,7 @@ HRESULT MenuOnRender(Menu* menu, ID2D1HwndRenderTarget* pRenderTarget, IDWriteTe
         draw_text_args.x = 0.0f;
         draw_text_args.y = 0.25f;
 
-        ui::draw_text(draw_text_args);
+        ui_draw_text(draw_text_args);
     }
     
     //--------------------------------------------------
@@ -85,7 +85,7 @@ HRESULT MenuOnRender(Menu* menu, ID2D1HwndRenderTarget* pRenderTarget, IDWriteTe
         draw_text_args.x = 0.0f;
         draw_text_args.y = -0.0f;
 
-        ui::draw_text(draw_text_args);
+        ui_draw_text(draw_text_args);
     }
 
     //--------------------------------------------------
@@ -98,12 +98,12 @@ HRESULT MenuOnRender(Menu* menu, ID2D1HwndRenderTarget* pRenderTarget, IDWriteTe
         draw_text_args.x = 0.0f;
         draw_text_args.y = -0.1f;
 
-        ui::draw_text(draw_text_args);
+        ui_draw_text(draw_text_args);
     }
 
     //--------------------------------------------------
     {
-        ui::draw_rectangle_s draw_rectangle_arg{
+        ui_draw_rectangle_s draw_rectangle_arg{
             .pRenderTarget = pRenderTarget,
             .pTextFormat = pTextFormat,
             .pBrush = menu->m_pBlackBrush,
@@ -112,7 +112,7 @@ HRESULT MenuOnRender(Menu* menu, ID2D1HwndRenderTarget* pRenderTarget, IDWriteTe
             .x = 0.f,
             .y = (float)menu->m_menu_position * -0.1f
         };
-        ui::draw_rectangle(draw_rectangle_arg);
+        ui_draw_rectangle(draw_rectangle_arg);
     }
 
     return hr;
