@@ -6,7 +6,7 @@
 namespace ui {
 
 //---------------------------------------------------------------------------------
-void draw_text(const draw_text_s& arg) {
+void draw_text(const draw_text_s arg) {
     D2D1_SIZE_F renderTargetSize = arg.pRenderTarget->GetSize();
     D2D1::Matrix3x2F transform;
 
@@ -25,7 +25,7 @@ void draw_text(const draw_text_s& arg) {
 }
 
 //---------------------------------------------------------------------------------
-void draw_rectangle(const draw_rectangle_s& arg) {
+void draw_rectangle(const draw_rectangle_s arg) {
     D2D1_SIZE_F renderTargetSize = arg.pRenderTarget->GetSize();
     D2D1::Matrix3x2F transform = D2D1::Matrix3x2F::Identity();
 

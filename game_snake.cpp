@@ -3,7 +3,7 @@
 #include "ui.h"
 
 //----------------------------------------------------------------------------------------------------
-HRESULT game_snake::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat, ID2D1SolidColorBrush* m_pBrush) {
+HRESULT GameSnakeOnRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat, ID2D1SolidColorBrush* m_pBrush) {
     HRESULT hr = S_OK;
 
     ui::draw_text_s draw_text_args{
@@ -29,7 +29,7 @@ HRESULT game_snake::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFo
 }
 
 //----------------------------------------------------------------------------------------------------
-void game_snake::onKeyDown(SHORT vkey) {
+void GameSnakeOnKeyDown(SHORT vkey) {
     switch (vkey)
     {
     case VK_UP:

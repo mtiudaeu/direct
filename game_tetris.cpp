@@ -3,7 +3,7 @@
 #include "ui.h"
 
 //----------------------------------------------------------------------------------------------------
-HRESULT game_tetris::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat, ID2D1SolidColorBrush* m_pBrush) {
+HRESULT GameTetrisOnRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat, ID2D1SolidColorBrush* m_pBrush) {
     HRESULT hr = S_OK;
 
     ui::draw_text_s draw_text_args{
@@ -29,7 +29,7 @@ HRESULT game_tetris::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextF
 }
 
 //----------------------------------------------------------------------------------------------------
-void game_tetris::onKeyDown(SHORT vkey) {
+void GameTetrisOnKeyDown(SHORT vkey) {
     switch (vkey)
     {
     case VK_UP:

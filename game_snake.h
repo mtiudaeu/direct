@@ -2,10 +2,9 @@
 
 #include <d2d1.h>
 
-class game_snake
-{
-public:
-	HRESULT onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat, ID2D1SolidColorBrush* m_pBrush);
-	void onKeyDown(SHORT vkey);
-};
+struct GameSnake {};
+
+HRESULT GameSnakeOnRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat, ID2D1SolidColorBrush* m_pBrush);
+void GameSnakeOnKeyDown(SHORT vkey);
+
 

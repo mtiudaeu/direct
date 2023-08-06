@@ -13,10 +13,10 @@ enum E_GAME {
 };
 
 //----------------------------------------------------------------------------------------------------
-HRESULT Menu::createResources(ID2D1HwndRenderTarget* pRenderTarget) {
+HRESULT MenuCreateResources(Menu* menu, ID2D1HwndRenderTarget* pRenderTarget) {
     HRESULT hr = pRenderTarget->CreateSolidColorBrush(
         D2D1::ColorF(D2D1::ColorF::Black),
-        &m_pBlackBrush
+        &menu->m_pBlackBrush
     );
     if (FAILED(hr)) return hr;
 
@@ -24,31 +24,31 @@ HRESULT Menu::createResources(ID2D1HwndRenderTarget* pRenderTarget) {
 }
 
 //----------------------------------------------------------------------------------------------------
-void Menu::discardResources() {
-    if (m_pBlackBrush) {
-        m_pBlackBrush->Release();
-        m_pBlackBrush = nullptr;
+void MenuDiscardResources(Menu* menu) {
+    if (menu->m_pBlackBrush) {
+        menu->m_pBlackBrush->Release();
+        menu->m_pBlackBrush = nullptr;
     }
 }
 
 //----------------------------------------------------------------------------------------------------
-HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat) {
+HRESULT MenuOnRender(Menu* menu, ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* pTextFormat) {
     HRESULT hr = S_OK;
 
-    if (m_current_game) {
+    if (menu->m_current_game) {
 
-        switch (m_menu_position) {
+        switch (menu->m_menu_position) {
         case TETRIS:
         {
-            game_tetris* game = static_cast<game_tetris*>(m_current_game);
-            game->onRender(pRenderTarget, pTextFormat, m_pBlackBrush);
+            //mdtmp GameTetris* game = (GameTetris*)menu->m_current_game;
+            GameTetrisOnRender(pRenderTarget, pTextFormat, menu->m_pBlackBrush);
         }
         break;
 
         case SNAKE:
         {
-            game_snake* game = static_cast<game_snake*>(m_current_game);
-            game->onRender(pRenderTarget, pTextFormat, m_pBlackBrush);
+            //mdtmp GameSnake* game = (GameSnake*)menu->m_current_game;
+            GameSnakeOnRender(pRenderTarget, pTextFormat, menu->m_pBlackBrush);
         }
         break;
         }
@@ -59,7 +59,7 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
     ui::draw_text_s draw_text_args{
         .pRenderTarget = pRenderTarget,
         .pTextFormat = pTextFormat,
-        .pBrush = m_pBlackBrush
+        .pBrush = menu->m_pBlackBrush
     };
 
     //--------------------------------------------------
@@ -106,11 +106,11 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
         ui::draw_rectangle_s draw_rectangle_arg{
             .pRenderTarget = pRenderTarget,
             .pTextFormat = pTextFormat,
-            .pBrush = m_pBlackBrush,
+            .pBrush = menu->m_pBlackBrush,
             .width = .15f,
             .height = .05f,
             .x = 0.f,
-            .y = (float)m_menu_position * -0.1f
+            .y = (float)menu->m_menu_position * -0.1f
         };
         ui::draw_rectangle(draw_rectangle_arg);
     }
@@ -119,42 +119,42 @@ HRESULT Menu::onRender(ID2D1HwndRenderTarget* pRenderTarget, IDWriteTextFormat* 
 }
 
 //----------------------------------------------------------------------------------------------------
-void Menu::onKeyDown(SHORT vkey) {
+void MenuOnKeyDown(Menu* menu, SHORT vkey) {
     if (vkey == VK_ESCAPE) {
-       switch (m_menu_position) {
+       switch (menu->m_menu_position) {
        case TETRIS:
        {
-           game_tetris* game = static_cast<game_tetris*>(m_current_game);
+           GameTetris* game = (GameTetris*)menu->m_current_game;
            delete game;
-           m_current_game = nullptr;
+           menu->m_current_game = nullptr;
        }
        break;
 
        case SNAKE:
        {
-           game_snake* game = static_cast<game_snake*>(m_current_game);
+           GameSnake* game = (GameSnake*)menu->m_current_game;
            delete game;
-           m_current_game = nullptr;
+           menu->m_current_game = nullptr;
        }
        break;
        }
        return;
     }
 
-    if (m_current_game) {
+    if (menu->m_current_game) {
 
-        switch (m_menu_position) {
+        switch (menu->m_menu_position) {
              case TETRIS:
                 {
-                    game_tetris* game = static_cast<game_tetris*>(m_current_game);
-                    game->onKeyDown(vkey);
+                    //mdtmp GameTetris* game = (GameTetris*)menu->m_current_game;
+                    GameTetrisOnKeyDown(vkey);
                 }
                 break;
 
             case SNAKE:
                 {
-                    game_snake* game = static_cast<game_snake*>(m_current_game);
-                    game->onKeyDown(vkey);
+                    //mdtmp GameSnake* game = (GameSnake*)menu->m_current_game;
+                    GameSnakeOnKeyDown(vkey);
                 }
                 break;
         }
@@ -171,29 +171,29 @@ void Menu::onKeyDown(SHORT vkey) {
         */
 
     case VK_UP:
-        if (m_menu_position > 0) {
-            m_menu_position--;
+        if (menu->m_menu_position > 0) {
+            menu->m_menu_position--;
         }
         break;
 
     case VK_DOWN:
-        if (m_menu_position < 1) {
-            m_menu_position++;
+        if (menu->m_menu_position < 1) {
+            menu->m_menu_position++;
         }
 
         break;
 
     case VK_RETURN:
-        switch (m_menu_position) {
+        switch (menu->m_menu_position) {
             case TETRIS:
             {
-                m_current_game = new game_tetris();
+                menu->m_current_game = new GameTetris();
             }
             break;
 
             case SNAKE:
             {
-                m_current_game = new game_snake();
+                menu->m_current_game = new GameSnake();
             }
             break;
         }

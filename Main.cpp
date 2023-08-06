@@ -144,7 +144,7 @@ HRESULT CreateDeviceResources()
         );
     if (FAILED(hr)) return hr;
 
-    m_menu.createResources(m_pRenderTarget);
+    MenuCreateResources(&m_menu, m_pRenderTarget);
 
     return hr;
 }
@@ -152,7 +152,7 @@ HRESULT CreateDeviceResources()
 //----------------------------------------------------------------------------------------------------
 void DiscardDeviceResources()
 {
-    m_menu.discardResources();
+    MenuDiscardResources(&m_menu);
 
     SafeRelease(&m_pRenderTarget);
 }
@@ -195,7 +195,7 @@ HRESULT OnRender()
 
     m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
-    m_menu.onRender(m_pRenderTarget, m_pTextFormat);
+    MenuOnRender(&m_menu, m_pRenderTarget, m_pTextFormat);
 
     m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
@@ -299,5 +299,5 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 //----------------------------------------------------------------------------------------------------
 void OnKeyDown(SHORT vkey) {
-    m_menu.onKeyDown(vkey);
+    MenuOnKeyDown(&m_menu, vkey);
 }

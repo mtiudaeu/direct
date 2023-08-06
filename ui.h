@@ -15,7 +15,7 @@ namespace ui {
 		float x;
 		float y;
 	};
-	void draw_text(const draw_text_s& arg);
+	void draw_text(const draw_text_s arg);
 
 	//---------------------------------------------------------------------------------
 	struct draw_rectangle_s {
@@ -28,6 +28,6 @@ namespace ui {
 		float y;
 		float stroke_width = 2.0f;
 	};
-	void draw_rectangle(const draw_rectangle_s& arg);
+	void draw_rectangle(const draw_rectangle_s arg);
 
 }
