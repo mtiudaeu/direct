@@ -119,14 +119,10 @@ void prepareScene(void)
 void presentScene(void)
 {
 
-	/*
-	app.captionRect.x = 0.0f;
-	app.captionRect.y = 0.0f;
-	app.captionRect.w = SCREEN_WIDTH/2.0f;
-	app.captionRect.h = SCREEN_HEIGHT/2.0f;
-	*/
+	SDL_SetRenderDrawColor(app.renderer,  0, 0, 0, 255);
+	SDL_RenderFillRectF(app.renderer, &app.captionRect);
+
 	SDL_RenderCopyF(app.renderer, app.caption, NULL, &app.captionRect);
-	//mdtmp SDL_RenderCopy(app.renderer, app.caption, NULL, NULL);
 
 	SDL_RenderPresent(app.renderer);
 }
