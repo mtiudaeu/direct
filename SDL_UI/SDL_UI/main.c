@@ -56,6 +56,10 @@ void init(void)
 	}
 
 	//app.white = { 0xFF, 0xFF, 0xFF, 0 };
+	app.white.r = 0xFF;
+	app.white.g = 0xFF;
+	app.white.b = 0xFF;
+	app.white.a = 0x00;
 
 	if (TTF_Init() < 0)
 	{
@@ -64,14 +68,16 @@ void init(void)
 	}
 
 
-	const int font_size = 12;
+	const int font_size = 24;
 	app.font = TTF_OpenFont("OpenSans.ttf", font_size);
-	app.text = TTF_RenderUTF8_Solid(app.font, "test message", app.white);
-	app.captionRect.x = 4.0f;
-	app.captionRect.y = 4.0f;
+
+	app.text = TTF_RenderUTF8_Blended(app.font, "test message", app.white);
+	app.captionRect.x = 0.0f;
+	app.captionRect.y = 0.0f;
 	app.captionRect.w = (float)app.text->w;
 	app.captionRect.h = (float)app.text->h;
 	app.caption = SDL_CreateTextureFromSurface(app.renderer, app.text);
+
 	//mdtmp SDL_DestroySurface(app.text);
 }
 
@@ -113,7 +119,15 @@ void prepareScene(void)
 void presentScene(void)
 {
 
-	SDL_RenderCopy(app.renderer, app.caption, NULL, &app.captionRect);
+	/*
+	app.captionRect.x = 0.0f;
+	app.captionRect.y = 0.0f;
+	app.captionRect.w = SCREEN_WIDTH/2.0f;
+	app.captionRect.h = SCREEN_HEIGHT/2.0f;
+	*/
+	SDL_RenderCopyF(app.renderer, app.caption, NULL, &app.captionRect);
+	//mdtmp SDL_RenderCopy(app.renderer, app.caption, NULL, NULL);
+
 	SDL_RenderPresent(app.renderer);
 }
 
