@@ -10,6 +10,14 @@
 #define SCREEN_WIDTH   1280
 #define SCREEN_HEIGHT  720
 
+
+//mdtmp
+#include <windows.h>
+#include <tchar.h>
+#include <strsafe.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 typedef struct {
 	SDL_Renderer *renderer;
 	SDL_Window *window;
@@ -22,6 +30,8 @@ typedef struct {
 
 App app;
 bool shouldExit = false;
+
+FILETIME ftCreate, ftAccess, ftWrite, prevFtWrite;
 
 void init(void)
 {
@@ -37,7 +47,7 @@ void init(void)
 		exit(1);
 	}
 
-	app.window = SDL_CreateWindow("Shooter 01", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
+	app.window = SDL_CreateWindow("UI", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
 
 	if (!app.window)
 	{
@@ -79,6 +89,7 @@ void init(void)
 	app.caption = SDL_CreateTextureFromSurface(app.renderer, app.text);
 
 	//mdtmp SDL_DestroySurface(app.text);
+
 }
 
 void uninit(void)
@@ -114,6 +125,32 @@ void prepareScene(void)
 {
 	SDL_SetRenderDrawColor(app.renderer, 96, 128, 255, 255);
 	SDL_RenderClear(app.renderer);
+
+	//mdtmp test file
+	{
+
+
+		FILE* tmp =
+			CreateFile("test.ui",                // name of the write
+				GENERIC_READ,          // open for writing
+				0,                      // do not share
+				NULL,                   // default security
+				OPEN_EXISTING,             // create new file only
+				FILE_ATTRIBUTE_NORMAL,  // normal file
+				NULL);
+
+		// Retrieve the file times for the file.
+		if (!GetFileTime(tmp, &ftCreate, &ftAccess, &ftWrite))
+			return;
+
+		CloseHandle(tmp);
+
+		if (CompareFileTime(&prevFtWrite, &ftWrite) == -1)
+		{
+			prevFtWrite = ftWrite;
+		}
+
+	}
 }
 
 void presentScene(void)
