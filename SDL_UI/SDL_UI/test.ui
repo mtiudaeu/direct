@@ -1,4 +1,9 @@
-test
-
-ss
-aaaa
+titleBackground:Rectangle
+	x:100
+	y:200
+	w:&title.w + 2
+	h:&title.h + 2
+title:Text
+	text:Je suis un titre
+	x:100
+	y:200

@@ -135,9 +135,11 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">include</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">lib\SDl2.lib;lib\SDL2_ttf.lib;lib\SDL2_image.lib;lib\SDL2main.lib</AdditionalModuleDependencies>
     </ClCompile>
+    <ClCompile Include="render_type.c" />
     <ClCompile Include="ui_file.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="render_type.h" />
     <ClInclude Include="ui_file.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

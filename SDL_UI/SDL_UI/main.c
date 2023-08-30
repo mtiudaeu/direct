@@ -2,21 +2,14 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "ui_file.h"
+
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
-
 #include <SDL2/SDL_ttf.h>
 
 #define SCREEN_WIDTH   1280
 #define SCREEN_HEIGHT  720
-
-
-//mdtmp
-#include <windows.h>
-#include <tchar.h>
-#include <strsafe.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 typedef struct {
 	SDL_Renderer *renderer;
@@ -30,8 +23,6 @@ typedef struct {
 
 App app;
 bool shouldExit = false;
-
-FILETIME ftCreate, ftAccess, ftWrite, prevFtWrite;
 
 void init(void)
 {
@@ -126,31 +117,7 @@ void prepareScene(void)
 	SDL_SetRenderDrawColor(app.renderer, 96, 128, 255, 255);
 	SDL_RenderClear(app.renderer);
 
-	//mdtmp test file
-	{
 
-
-		FILE* tmp =
-			CreateFile("test.ui",                // name of the write
-				GENERIC_READ,          // open for writing
-				0,                      // do not share
-				NULL,                   // default security
-				OPEN_EXISTING,             // create new file only
-				FILE_ATTRIBUTE_NORMAL,  // normal file
-				NULL);
-
-		// Retrieve the file times for the file.
-		if (!GetFileTime(tmp, &ftCreate, &ftAccess, &ftWrite))
-			return;
-
-		CloseHandle(tmp);
-
-		if (CompareFileTime(&prevFtWrite, &ftWrite) == -1)
-		{
-			prevFtWrite = ftWrite;
-		}
-
-	}
 }
 
 void presentScene(void)
@@ -161,10 +128,14 @@ void presentScene(void)
 
 	SDL_RenderCopyF(app.renderer, app.caption, NULL, &app.captionRect);
 
+	static FILETIME modifiedTimestamp;
+	static ui_file file;
+	ui_file_render(&file, &modifiedTimestamp, L"test.ui");
+
 	SDL_RenderPresent(app.renderer);
 }
 
-int WinMain(int argc, char *argv[])
+int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdline, int cmdshow)
 {
 	memset(&app, 0, sizeof(App));
 

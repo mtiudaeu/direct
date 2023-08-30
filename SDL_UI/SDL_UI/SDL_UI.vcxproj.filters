@@ -21,9 +21,15 @@
     <ClCompile Include="ui_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="render_type.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ui_file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="render_type.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
