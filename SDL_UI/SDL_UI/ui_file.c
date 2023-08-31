@@ -8,7 +8,7 @@ int ui_file_render(ui_file* uiFile, FILETIME* modifiedTimestamp, WCHAR* fileName
 	//mdtmp assert(modifiedTimestamp);
 
 	FILETIME ftCreate, ftAccess, ftWrite;
-	FILE* tmp =
+	FILE* file =
 		CreateFile(fileName,       // name of the write
 			GENERIC_READ,          // open for writing
 			0,                     // do not share
@@ -18,15 +18,20 @@ int ui_file_render(ui_file* uiFile, FILETIME* modifiedTimestamp, WCHAR* fileName
 			NULL);
 
 	// Retrieve the file times for the file.
-	if (!GetFileTime(tmp, &ftCreate, &ftAccess, &ftWrite))
+	if (!GetFileTime(file, &ftCreate, &ftAccess, &ftWrite))
 		return 1;
-
-	CloseHandle(tmp);
 
 	if (CompareFileTime(modifiedTimestamp, &ftWrite) == -1)
 	{
 		*modifiedTimestamp = ftWrite;
 	}
 
+	CloseHandle(file);
+
 	return 0;
+}
+
+int create_render_type(FILE* file) 
+{
+
 }
