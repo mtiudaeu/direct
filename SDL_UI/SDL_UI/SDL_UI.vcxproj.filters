@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{7f1bb2cf-0f4e-4b91-9bb6-0836b7418258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{aebbd7c5-c09e-49ff-9c38-0bfdb54551bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -24,6 +30,15 @@
     <ClCompile Include="render_type.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="common\dyn_buf.c">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\log.c">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\str.c">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ui_file.h">
@@ -31,6 +46,24 @@
     </ClInclude>
     <ClInclude Include="render_type.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\str.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\test.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\macros.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\allocator_cbs.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\dyn_buf.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\log.h">
+      <Filter>Header Files\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

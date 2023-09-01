@@ -132,6 +132,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="common\dyn_buf.c" />
+    <ClCompile Include="common\log.c" />
+    <ClCompile Include="common\str.c" />
     <ClCompile Include="main.c">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">include</AdditionalIncludeDirectories>
       <AdditionalModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">lib\SDl2.lib;lib\SDL2_ttf.lib;lib\SDL2_image.lib;lib\SDL2main.lib</AdditionalModuleDependencies>
@@ -140,6 +143,12 @@
     <ClCompile Include="ui_file.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common\allocator_cbs.h" />
+    <ClInclude Include="common\dyn_buf.h" />
+    <ClInclude Include="common\log.h" />
+    <ClInclude Include="common\macros.h" />
+    <ClInclude Include="common\str.h" />
+    <ClInclude Include="common\test.h" />
     <ClInclude Include="render_type.h" />
     <ClInclude Include="ui_file.h" />
   </ItemGroup>
