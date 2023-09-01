@@ -16,7 +16,7 @@ static void _print(int fd, const char* fmt, va_list* vl);
 
 //--------------------------------------------------
 static void _print_str_fd(int fd, struct str str) {
-  _write(fd, str.data, str.size);
+  _write(fd, str.data, (unsigned int)str.size);
 }
 
 //--------------------------------------------------

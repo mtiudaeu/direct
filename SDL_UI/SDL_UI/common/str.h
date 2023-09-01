@@ -8,7 +8,7 @@
 
 struct str {
  const char* data;
- unsigned int size;
+ size_t size;
 };
 struct str_buf generic_dyn_buf(char);
 

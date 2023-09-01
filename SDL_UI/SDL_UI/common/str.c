@@ -206,7 +206,7 @@ struct str str_remove_prefix(struct str src, struct str prefix)
 {
  LOG_ERROR("unimplemented");
  assert(0);
- struct str str;
+ struct str str = {.data=0x0,.size=0};
  return str;
 }
 
@@ -215,7 +215,7 @@ struct str str_remove_suffix(struct str src, struct str suffix)
 {
  LOG_ERROR("unimplemented");
  assert(0);
- struct str str;
+ struct str str = { .data = 0x0,.size = 0 };
  return str;
 }
 
